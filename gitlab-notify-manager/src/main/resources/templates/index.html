@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>GitLab Notify Home</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.6.3/css/all.css}" crossorigin="anonymous">
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/webjars/clipboard.js/2.0.0/clipboard.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+
+                <div class="panel-heading">
+                    <h1 class="panel-title">GitLab Notification</h1>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-12 col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                            <a href="/new">
+                                <button type="button"
+                                        class="col-12 btn btn-primary">
+                                    New
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover" th:if="${not #lists.isEmpty(notifies)}">
+                            <thead class="thead-inverse">
+                            <tr>
+                                <th>No.</th>
+                                <th>Description</th>
+                                <th>Type</th>
+                                <th>Notify Url</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tr th:each="notify, iterate : ${notifies}">
+                                <td th:text="${pageSize * notifyPage.number} + ${iterate.index + 1}"></td>
+                                <td th:text="${notify.description}"></td>
+                                <td th:text="${notify.notifyType}"></td>
+                                <td>
+                                    <div class="input-group"><input th:id="${'notify-id-' + {notify.id}}" type="text"
+                                                                    class="form-control"
+                                                                    th:value="${'' + {url} + '/api/' + {notify.id}}">
+                                        <span class="input-group-btn">
+        <button class="btn btn-primary" th:data-clipboard-target="'#' + ${'notify-id-' + {notify.id}}">
+                                        <i class='far fa-clipboard'></i>
+                                    </button>
+   </span>
+                                    </div>
+                                </td>
+                                <td><a th:href="${'/edit/'+ {notify.id}}">
+                                    <button class="btn btn-primary">
+                                        <i class='far fa-edit'></i></button>
+                                </a></td>
+                                <td><a th:href="${'/delete/'+ {notify.id}}">
+                                    <button class="btn btn-danger"><i class='far fa-trash-alt'></i></button>
+                                </a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="text-center">
+                        <ul th:if="${notifyPage.totalPages > 1}" class="pagination"
+                            th:each="pageNumber : ${pageNumbers}">
+                            <li th:class="${pageNumber==notifyPage.number + 1} ? active">
+                                <a th:href="@{/(page=${pageNumber})}" th:text="${pageNumber}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$( document ).ready(function() {
+    new ClipboardJS('.btn');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

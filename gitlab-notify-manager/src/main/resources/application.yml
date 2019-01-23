@@ -1,0 +1,26 @@
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      clientId: ${OAUTH_CLIENT_ID}
+      clientSecret: ${OAUTH_SECRET_ID}
+      accessTokenUri: ${OAUTH_ACCESS_TOKEN_URL}
+      userAuthorizationUri: ${OAUTH_AUTHORIZATION_URL}
+      scope:
+      - read_user
+    resource:
+      userInfoUri: ${OAUTH_USER_RESOURCE_URL}
+callbackurl: ${GITLABLINE_CALLBACK_URL}
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: ${HIBERNATE_DDL_AUTO}
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+logging:
+  level:
+    ROOT: ${LOGGING_LEVEL}
+  file: ${LOG_FILE}

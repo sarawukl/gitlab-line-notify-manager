@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Notify Form</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" crossorigin="anonymous">
+
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form th:object="${notify}" th:action="@{/notify/}" method="post">
+                <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                    <p>Please Correct Errors Below</p>
+                </div>
+                <input type="hidden" th:field="*{id}"/>
+                <input type="hidden" th:field="*{username}"/>
+                <div class="pannel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h1 class="panel-title">Information</h1>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12 form-group" th:class="${#fields.hasErrors('description')}
+                                ? 'col-md-12 form-group has-error' : 'col-md-12 form-group'">
+                                    <label>Description:</label>
+                                    <span class="help-block" th:if="${#fields.hasErrors('description')}">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('description')}" th:text="${err}"/>
+                                        </ul>
+                                    </span>
+                                    <input type="text" class="form-control" th:field="*{description}"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 form-group" th:class="${#fields.hasErrors('lineToken')}
+                                ? 'col-md-12 form-group has-error' : 'col-md-12 form-group'">
+                                    <label>Line Token:</label><span class="help-block"
+                                                                    th:if="${#fields.hasErrors('lineToken')}">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('lineToken')}" th:text="${err}"/>
+                                        </ul>
+                                    </span>
+                                    <input type="text" class="form-control" th:field="*{lineToken}"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <label>Notify Type:</label>
+                                    <select class="form-control" th:field="*{notifyType}">
+                                        <option th:each="typeValue : ${T(com.sarawukl.gitlablinemgr.model.NotifyType).values()}"
+                                                th:value="${typeValue.name()}"
+                                                th:text="${typeValue.name()}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-12 col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="javascript">
+
+</script>
+</body>
