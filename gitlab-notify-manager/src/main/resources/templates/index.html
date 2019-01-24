@@ -57,7 +57,7 @@
                                 <td>
                                     <div class="input-group"><input th:id="${'notify-id-' + {notify.id}}" type="text"
                                                                     class="form-control"
-                                                                    th:value="${'' + {url} + '/api/' + {notify.id}}">
+                                                                    th:value="${'' + {url} + '/api/' + {notify.id} + '?uuid=' + {notify.uuid}}">
                                         <span class="input-group-btn">
         <button class="btn btn-primary" th:data-clipboard-target="'#' + ${'notify-id-' + {notify.id}}">
                                         <i class='far fa-clipboard'></i>
@@ -92,6 +92,12 @@
 $( document ).ready(function() {
     new ClipboardJS('.btn');
 });
+
+
+
+
+
+
 
 
 

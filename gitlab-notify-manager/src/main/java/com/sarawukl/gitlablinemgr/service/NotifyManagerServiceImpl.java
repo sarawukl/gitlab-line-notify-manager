@@ -9,9 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.security.SecureRandom;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -54,6 +53,9 @@ public class NotifyManagerServiceImpl implements NotifyManagerService {
     @Override
     public Notify save(Notify notify) {
         log.debug("Save notify");
+        if (notify.getUuid().isEmpty()) {
+            notify.setUuid(generateSafeToken());
+        }
         notify.setUsername(authenticationService.getAuthentication().getName());
         return notifyRepository.save(notify);
     }
@@ -107,4 +109,14 @@ public class NotifyManagerServiceImpl implements NotifyManagerService {
     public boolean matchedValue(String value1, String value2) {
         return value1.equals(value2);
     }
+
+    private String generateSafeToken() {
+        SecureRandom random = new SecureRandom();
+        byte bytes[] = new byte[20];
+        random.nextBytes(bytes);
+        Base64.Encoder encoder = Base64.getUrlEncoder().withoutPadding();
+        String token = encoder.encodeToString(bytes);
+        return token;
+    }
+
 }

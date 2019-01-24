@@ -6,23 +6,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
 @Slf4j
 public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({TokenNotFoundException.class})
-    public ResponseEntity<Object> handleTokenNotFound(
-            TokenNotFoundException ex, WebRequest request) {
+    @ExceptionHandler({CustomException.class})
+    public ResponseEntity<Object> handleCustomException(
+            CustomException ex, WebRequest request) {
 
         log.error(ex.getMessage(), ex);
         String message = ex.getMessage();

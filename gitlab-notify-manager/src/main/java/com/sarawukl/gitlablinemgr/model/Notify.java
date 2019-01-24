@@ -29,6 +29,9 @@ public class Notify {
     private String notifyType;
 
     @NotNull
+    private String uuid;
+
+    @NotNull
     @NotEmpty
     private String lineToken;
 }

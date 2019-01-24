@@ -1,6 +1,6 @@
 package com.sarawukl.gitlablinemgr.service;
 
-import com.sarawukl.gitlablinemgr.handler.TokenNotFoundException;
+import com.sarawukl.gitlablinemgr.handler.CustomException;
 import com.sarawukl.gitlablinemgr.model.Notify;
 import com.sarawukl.gitlablinemgr.repository.NotifyRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,13 +32,18 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public ResponseEntity<String> requestCallback(String gitLabEvent, String data, Long id) throws TokenNotFoundException {
+    public ResponseEntity<String> requestCallback(String gitLabEvent, String data, Long id, String uuid) throws Exception {
 
         Notify notify = findById(id);
         if (notify == null) {
-            throw new TokenNotFoundException(id);
+            String error = String.format("Error! Notify ID '%s' Data Not Found", id);
+            throw new CustomException(error);
         }
-
+        if (!notify.getUuid().equals(uuid)) {
+            System.out.println("Invalid uuid");
+            String error = String.format("Invalid uuid");
+            throw new CustomException(error);
+        }
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add("Content-Type", "application/json");
         headers.add("Line-Token", notify.getLineToken());
@@ -53,7 +58,6 @@ public class ApiServiceImpl implements ApiService {
                 data, headers, HttpMethod.POST, uri);
 
         ResponseEntity responseEntity = template.exchange(request, String.class);
-        System.out.println(responseEntity.getBody());
         return responseEntity;
     }
 }
