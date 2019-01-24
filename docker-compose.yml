@@ -1,7 +1,7 @@
 version: "3"
 services:
     gitlab-notify-db:
-        image: mysql
+        image: mysql:5.7
         restart: always
         environment:
           MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -12,15 +12,10 @@ services:
             - ./persistent-volume/gitlab-notify-db/db:/var/lib/mysql
         ports:
             - ${MYSQL_PORT}:3306
-    gitlab-notify-phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        environment:
-            PMA_ARBITRARY: 1
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    gitlab-notify-adminer:
+        image: adminer
         ports:
-            - "${PHPMYADMIN_PORT}:80"
+            - "${ADMINER_PORT}:8080"
         links:
             - gitlab-notify-db:gitlab-notify-db
     gitlab-notify-callback:

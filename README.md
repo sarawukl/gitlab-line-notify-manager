@@ -1,5 +1,5 @@
 # GitLab Line Notify Manager With Spring boot
-Spring (Web,Security,Data), Thymeleaf, MySQL, phpMyAdmin
+Spring (Web,Security,Data), Thymeleaf, MySQL, adminer
 
 ## Getting Started
 1. Create New application in your GitLab account for OAuth (may be need Administrator permission)
