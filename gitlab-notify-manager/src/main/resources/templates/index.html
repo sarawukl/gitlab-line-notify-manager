@@ -7,7 +7,7 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" crossorigin="anonymous">
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.6.3/css/all.css}" crossorigin="anonymous">
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
     <script src="/webjars/clipboard.js/2.0.0/clipboard.min.js"></script>
@@ -15,7 +15,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}" crossorigin="anonymous"></script>
+            th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -24,11 +24,16 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-primary">
 
-                <div class="panel-heading">
-                    <h1 class="panel-title">GitLab Notification</h1>
+                <div class="panel-heading clearfix">
+                    <h1 class="panel-title pull-left">GitLab Notification</h1>
+                    <div class="btn-group pull-right">
+                        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#help-modal">
+                            <i class='fas fa-question'></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="panel-body">
-                    <div class="row">
+                    <div class="row" style="margin-bottom: 10px;">
                         <div class="col-xs-12 col-12 col-md-12 col-sm-12 col-lg-12 col-xl-12">
                             <a href="/new">
                                 <button type="button"
@@ -38,8 +43,8 @@
                             </a>
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover" th:if="${not #lists.isEmpty(notifies)}">
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(notifies)}">
+                        <table class="table table-hover">
                             <thead class="thead-inverse">
                             <tr>
                                 <th>No.</th>
@@ -56,10 +61,12 @@
                                 <td th:text="${notify.notifyType}"></td>
                                 <td>
                                     <div class="input-group"><input th:id="${'notify-id-' + {notify.id}}" type="text"
+                                                                    autocorrect="off" autocapitalize="off"
+                                                                    spellcheck="false"
                                                                     class="form-control"
                                                                     th:value="${'' + {url} + '/api/' + {notify.id} + '?uuid=' + {notify.uuid}}">
                                         <span class="input-group-btn">
-        <button class="btn btn-primary" th:data-clipboard-target="'#' + ${'notify-id-' + {notify.id}}">
+        <button class="btn btn-primary copy-btn" th:data-clipboard-target="'#' + ${'notify-id-' + {notify.id}}">
                                         <i class='far fa-clipboard'></i>
                                     </button>
    </span>
@@ -87,28 +94,44 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="help-modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">How-to Create Line Token</h4>
+                </div>
+                <div class="modal-body">
+                    <p>1. Go to <a href="https://notify-bot.line.me/my/"
+                                   target="_blank">https://notify-bot.line.me/my/</a></p>
+                    <p>2. Generate Token</p>
+                    <p><img class="img-responsive" src="/images/get_token.png"/></p>
+                    <p>3. Select Chat Room</p>
+                    <p><img class="img-responsive" src="/images/select_chat_room.png"/></p>
+                    <p>4. Get token</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </div>
 <script>
 $( document ).ready(function() {
-    new ClipboardJS('.btn');
+    new ClipboardJS('.copy-btn');
+    $('.copy-btn').tooltip({title: "copied!",trigger: "manual"});
+    $('.copy-btn').on("click", function(){
+        $(this).tooltip("show");
+        var currentBtn = $(this);
+        setTimeout(function(){
+            currentBtn.tooltip("hide");}
+        , 500);
+    });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
